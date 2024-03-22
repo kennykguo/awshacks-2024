@@ -14,7 +14,7 @@ def show_html(request):
         return Response("Error: HTML file not found", status=500)
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 8080))
+    port = int(os.environ.get("PORT"))
     with Configurator() as config:
         # Add route and view for serving HTML page
         config.add_route('html', '/html')
