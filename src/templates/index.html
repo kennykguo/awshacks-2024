@@ -47,7 +47,7 @@
         background-color: #2980b9;
     }
 
-    button {
+    button[type="submit"] {
         background-color: #27ae60;
         color: #fff;
         padding: 10px 30px;
@@ -58,7 +58,7 @@
         transition: background-color 0.3s;
     }
 
-    button:hover {
+    button[type="submit"]:hover {
         background-color: #219651;
     }
 
@@ -71,20 +71,15 @@
         display: none;
         margin-top: 20px;
     }
-
-    #fileList {
-        margin-top: 20px;
-        text-align: left;
-    }
 </style>
 </head>
 <body>
     <div id="uploadContainer">
         <h1>Upload PDF Files</h1>
-        <form id="pdfForm" enctype="multipart/form-data">
+        <form id="pdfForm" enctype="multipart/form-data" action="/upload" method="post">
             <label for="fileInput">Select PDF Files</label><br><br>
-            <input type="file" id="fileInput" name="pdfFiles" multiple accept=".pdf" onchange="displayFileNames()" action="/Upload"><br><br>
-            <button type="button" onclick="uploadPDF()">Upload</button>
+            <input type="file" id="fileInput" name="pdfFiles" multiple accept=".pdf" onchange="displayFileNames()"><br><br>
+            <button type="submit" id="uploadButton">Upload</button>
         </form>
 
         <div id="loading">
@@ -98,39 +93,36 @@
         </div>
 
         <div id="fileList"></div>
-    </div>
 
-    <script>
-        function uploadPDF() {
-            var form = document.getElementById('pdfForm');
-            var formData = new FormData(form);
+        <script>
+            function displayFileNames() {
+                var files = document.getElementById('fileInput').files;
+                var fileList = document.getElementById('fileList');
+                fileList.innerHTML = '';
 
-            // Show loading message
-            document.getElementById('loading').style.display = 'block';
-
-            // Simulate buffering for 5 seconds
-            setTimeout(function(){
-                // Hide loading message
-                document.getElementById('loading').style.display = 'none';
-                // Show download link
-                document.getElementById('downloadLink').style.display = 'block';
-            }, 5000);
-        }
-
-        function displayFileNames() {
-            var files = document.getElementById('fileInput').files;
-            var fileList = document.getElementById('fileList');
-            fileList.innerHTML = '';
-
-            if (files.length > 0) {
-                var fileListHTML = '<p>Files selected:</p><ul>';
-                for (var i = 0; i < files.length; i++) {
-                    fileListHTML += '<li>' + files[i].name + '</li>';
+                if (files.length > 0) {
+                    var fileListHTML = '<p>Files selected:</p><ul>';
+                    for (var i = 0; i < files.length; i++) {
+                        fileListHTML += '<li>' + files[i].name + '</li>';
+                    }
+                    fileListHTML += '</ul>';
+                    fileList.innerHTML = fileListHTML;
                 }
-                fileListHTML += '</ul>';
-                fileList.innerHTML = fileListHTML;
             }
-        }
-    </script>
+
+            document.getElementById('pdfForm').addEventListener('submit', function() {
+                document.getElementById('uploadButton').style.display = 'none';
+                document.getElementById('loading').style.display = 'block';
+
+                // Simulate buffering for 5 seconds
+                setTimeout(function(){
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('downloadLink').style.display = 'block';
+                }, 5000);
+            });
+        </script>
+    </div>
 </body>
 </html>
+
+
