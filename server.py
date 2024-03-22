@@ -3,11 +3,6 @@ from pyramid.config import Configurator
 from pyramid.response import Response
 import os
 
-def hello_world(request):
-    name = os.environ.get('NAME', 'world')
-    message = f"Hello, {name}!\n"
-    return Response(message)
-
 def show_html(request):
     # Path to the HTML file
     html_path = os.path.join(os.path.dirname(__file__), 'src', 'templates', 'index.html')
@@ -21,9 +16,6 @@ def show_html(request):
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
     with Configurator() as config:
-        config.add_route('hello', '/')
-        config.add_view(hello_world, route_name='hello')
-        
         # Add route and view for serving HTML page
         config.add_route('html', '/html')
         config.add_view(show_html, route_name='html')
