@@ -12,7 +12,11 @@ def index():
     return render_template('index.html')
 
 def process_pdf(pdf_files):
-    print("Success")
+
+    file_name = pdf_files[0].filename
+
+    print(file_name)
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
