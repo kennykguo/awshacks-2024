@@ -8,7 +8,7 @@ def hello_world(request):
     if name == None or len(name) == 0:
         name = "Kenny"
     message = "Hello, " + name + "!\n"
-    return Response(message)
+    return FileResponse(os.path.join(here,'src/templates/index.html'), request=request, content_type='text/html')
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT"))
