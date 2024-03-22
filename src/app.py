@@ -11,6 +11,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def index():
     return render_template('index.html')
 
+def process_pdf(pdf_files):
+    print("Success")
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'pdfFiles' not in request.files:
@@ -18,13 +21,9 @@ def upload_file():
     
     pdf_files = request.files.getlist('pdfFiles')
     
-    for file in pdf_files:
-        if file.filename == '':
-            return "No selected file"
-        if file:
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+    process_pdf(pdf_files)
 
-    return "Files uploaded successfully"
+    return render_template('index.html')
 
 @app.route('/generate_ics', methods=['GET'])
 def generate_ics():
@@ -43,6 +42,8 @@ def generate_ics():
     return send_file(temp_file, as_attachment=True, attachment_filename='calendar.ics')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=True)
+
+
 
 
