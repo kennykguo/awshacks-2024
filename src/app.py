@@ -3,7 +3,7 @@ from PyPDF2 import PdfReader
 from openai import OpenAI
 
 # Initialize OpenAI client with API key
-OPEN_AI_API_KEY = "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"
+OPEN_AI_API_KEY = ""
 client = OpenAI(api_key=OPEN_AI_API_KEY)
 
 app = Flask(__name__)
